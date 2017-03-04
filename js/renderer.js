@@ -32,6 +32,7 @@ var Renderer = {
 				init_fish();
 				Mountain.init();
 				WEED.init();
+				Pebbles.init();
 		},
 
 		/** What happens when window gets resized */
@@ -114,10 +115,20 @@ var Renderer = {
 				modelView = lookAt.x(modelView) ;
 				ModelRenderer.renderModel(Renderer.models['Mountain'], modelView);
 
-				//render mountain
+				//render weeds
 				modelView = Matrix.scale(WEED.scale) ;
 				modelView = Matrix.Translation(WEED.center).ensure4x4().x(modelView);
 				modelView = lookAt.x(modelView) ;
 				ModelRenderer.renderModel(Renderer.models['Weed'], modelView);
+				modelView = Matrix.scale(WEED.scale) ;
+				center2=$V([3,-13.5,0]),
+				modelView = Matrix.Translation(center2).ensure4x4().x(modelView);
+				modelView = lookAt.x(modelView) ;
+				ModelRenderer.renderModel(Renderer.models['Weed'], modelView);
+				// Render the floor
+				modelView = Matrix.scale(Pebbles.scale) ;
+				modelView = Matrix.Translation(Pebbles.center).ensure4x4().x(modelView);
+				modelView = lookAt.x(modelView) ;
+				ModelRenderer.renderModel(Renderer.models['Pebbles'], modelView);
 		}
 }

@@ -301,11 +301,11 @@ var Mountain = {
 						console.log("m made") ;
 						Renderer.models['Mountain'] = model;} );
 		} ,
-		center : $V([-1.5,-1.5,0]),
+		center : $V([-4.5,-13.5,0]),
 		height : 4 ,
 		width : 4 ,
 		length : 8 ,
-		scale : $V([1,1,1]) ,
+		scale : $V([5,5,5]) ,
 		boundingVal : 1.646952 ,
 };
 
@@ -319,10 +319,25 @@ var WEED = {
 						console.log("made");
 						Renderer.models['Weed'] = model;} );
 		} ,
-		center : $V([-1.5,-4,0]),
+		center : $V([0,-13.5,0]),
 		height : 4 ,
 		width : 4 ,
 		length : 8 ,
-		scale : $V([1,1,1]) ,
+		scale : $V([4,4,4]) ,
 		boundingVal : 1.646952 ,
 };
+
+//****PEBBLES
+
+var Pebbles = {
+		init:function()
+		{
+				loadTexture("Pebbles", "models/images/pebble.png");
+				ModelLoader.loadModel( 	"models/AquariumBox/skybox.obj", "models/AquariumBox/skybox.mtl", "Pebbles",function(model){Renderer.models['Pebbles'] = model;} );
+		} ,
+		center : $V([0,-14.5,0]),
+		height : 15 ,
+		width : 2 ,
+		length : 15 ,
+		scale : $V([15,2,15]) ,
+} ;
