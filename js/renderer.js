@@ -41,16 +41,6 @@ var Renderer = {
 	  	}
 
 
-    		loadTexture("bitwaffle", "models/bitwaffle/bitwaffle.png");
-
-    		ModelLoader.loadModel(
-    		"models/Mods/Turtle/Turtle.obj", "models/Mods/Turtle/Turtle.mtl", "bitwaffle",
-    		function(model){
-    			Renderer.models['bitwaffle'] = model;
-    		}
-    	);
-
-
 		loadTexture("diamond", "models/diamond/diamond.png");
 		ModelLoader.loadModel(
 			"models/diamond/diamond.obj", "models/diamond/diamond.mtl", "diamond",
@@ -61,6 +51,7 @@ var Renderer = {
 
 		//loading aquarium textures
 		AquariumBox.init();
+		init_fish();
 	},
 
 	/** What happens when window gets resized */
@@ -130,16 +121,22 @@ var Renderer = {
 
 			ModelRenderer.renderModel(Renderer.models['diamond'], m);
 		}
-		var initwafflerot = -90 * Math.PI / 180.0;
-		modelView = Matrix.scale($V([1/3.597651,1/3.597651,1/3.597651])) ;
-		modelView = Matrix.Translation($V([0.0, 0.0, 0.0])).ensure4x4().x(modelView);
-		modelView = lookAt.x(modelView) ;
-		ModelRenderer.renderModel(Renderer.models['bitwaffle'], modelView)
+		//Render the FISHES
+		Move_fish() ;
+		for(var f in Fish_list)
+		{
+			var fish = Fish_list[f] ;
+			modelView = Matrix.scale(fish.scale) ;
+			modelView = Matrix.Rotate3D(fish.direction.cross(fish.up).toUnitVector(),fish.up,fish.direction).x(modelView) ;
+			modelView = Matrix.Translation(fish.center).x(modelView) ;
+			modelView = lookAt.x(modelView) ;
+			ModelRenderer.renderModel(Renderer.models[fish.name],modelView) ;
+		}
 
 		// Render the Box
 		modelView = Matrix.scale(AquariumBox.scale) ;
 		modelView = Matrix.Translation(AquariumBox.center).ensure4x4().x(modelView);
 		modelView = lookAt.x(modelView) ;
-		ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
+	//	ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
 	}
 }
