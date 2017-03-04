@@ -3,7 +3,8 @@ var focused_fish = "" ;
 var Fish_list = {} ;
 var Fish_no = 0 ;
 var EggCount =0 ;
-var ListOfFallingObjects
+var CountFallingObjects = 0;
+var ListOfFallingObjects ={};
 var FoodCount = 0 ;
 var FishTextureList = [
 		"models/images/fish5.png",
@@ -304,7 +305,7 @@ function NewEgg()
         type : parent.type ,
         name : "FallingObject" + CountFallingObjects ,
         age : Date.now() ,
-        boundingVal : 1.2 ,
+        boundingVal : 1.041994 ,
 				speed : 0.06 ,
         currentScale : 50 ,
 				center : parent.center,
@@ -314,7 +315,7 @@ function NewEgg()
     }
     CountFallingObjects += 1 ;
     EggCount++ ;
-    // this.currentScale /= this.boundingVal ;
+
     this.scale = $V([this.currentScale,this.currentScale,this.currentScale]) ;
 
     loadTexture(egg.name, "models/images/egg_shell.png" );
@@ -333,7 +334,8 @@ function MoveFallingObjects()
             if(obj.type1 == "egg" && Date.now() - obj.age >= 9000)
             {
                 fish = NewFish(obj.type) ;
-                FishList[fish].center = obj.center.add(Axis.y.multiply(Fish_list[fish].currentScale)) ;
+								console.log("move falling");
+                Fish_list[fish].center = obj.center;
                 delete ListOfFallingObjects[obj.name] ;
                 EggCount-- ;
             }
