@@ -121,4 +121,5 @@ function HandleKeyEvents(event)
     else if(event.keyCode == KeyList.KEY_Y) { Camera.ToggleFish() ; Camera.FishEyeView() ;}
     else if(event.keyCode == KeyList.KEY_U) Camera.FishEyeRight ^= 1 ;
     else if(event.keyCode == KeyList.KEY_Q) Kill() ;
+    else if(event.keyCode == KeyList.KEY_E) NewEgg() ;
 }

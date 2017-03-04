@@ -130,5 +130,17 @@ var Renderer = {
 				modelView = Matrix.Translation(Pebbles.center).ensure4x4().x(modelView);
 				modelView = lookAt.x(modelView) ;
 				ModelRenderer.renderModel(Renderer.models['Pebbles'], modelView);
+				// Render egg,bubble and Food
+				if(EggCount > 0 || FoodCount > 0) MoveFallingObjects() ;
+				for(var obname in ListOfFallingObjects)
+				{
+					console.log("Egg ") ;
+					obj = ListOfFallingObjects[obname] ;
+					modelView = Matrix.scale(obj.scale) ;
+					modelView = Matrix.Rotate3D2(obj.direction.cross(obj.up).toUnitVector(),obj.up,obj.direction).x(modelView) ;
+					modelView = Matrix.Translation(obj.center).x(modelView) ;
+					modelView = lookAt.x(modelView) ;
+					ModelRenderer.renderModel(Renderer.models[obj.name],modelView) ;
+				}
 		}
 }

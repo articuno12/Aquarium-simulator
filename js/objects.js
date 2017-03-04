@@ -2,6 +2,9 @@ var HumanControl = false;
 var focused_fish = "" ;
 var Fish_list = {} ;
 var Fish_no = 0 ;
+var EggCount =0 ;
+var ListOfFallingObjects
+var FoodCount = 0 ;
 var FishTextureList = [
 		"models/images/fish5.png",
 		"models/images/fish4.png",
@@ -292,6 +295,53 @@ function CheckFishCollision(fish)
 		}
 		return false ;
 }
+function NewEgg()
+{
+    if(!(focused_fish in Fish_list)) return ;
+    parent = Fish_list[focused_fish];
+    var egg = {
+        type1 : "egg" ,
+        type : parent.type ,
+        name : "FallingObject" + CountFallingObjects ,
+        age : Date.now() ,
+        boundingVal : 1.2 ,
+				speed : 0.06 ,
+        currentScale : 50 ,
+				center : parent.center,
+        scale : $V([1,1,1]),
+        up : $V([0,1,0]) ,
+        direction : $V([0,-1,0]),
+    }
+    CountFallingObjects += 1 ;
+    EggCount++ ;
+    // this.currentScale /= this.boundingVal ;
+    this.scale = $V([this.currentScale,this.currentScale,this.currentScale]) ;
+
+    loadTexture(egg.name, "models/images/egg_shell.png" );
+    ModelLoader.loadModel("models/Egg/Egg.obj","models/Egg/Egg.mtl",egg.name,function(model){Renderer.models[egg.name] = model;} );
+    ListOfFallingObjects[egg.name] = egg ;
+    console.log("Egg Created") ;
+}
+function MoveFallingObjects()
+{
+    for(var obname in ListOfFallingObjects)
+    {
+        obj = ListOfFallingObjects[obname] ;
+        // hits the ground
+        if(Math.abs(obj.center.elements[1]) >= AquariumBox.height)
+        {
+            if(obj.type1 == "egg" && Date.now() - obj.age >= 9000)
+            {
+                fish = NewFish(obj.type) ;
+                FishList[fish].center = obj.center.add(Axis.y.multiply(Fish_list[fish].currentScale)) ;
+                delete ListOfFallingObjects[obj.name] ;
+                EggCount-- ;
+            }
+        }
+        else  obj.center = obj.center.add(obj.direction.multiply(obj.speed)) ;
+    }
+}
+
 //*****mountain****//
 var Mountain = {
 		init:function()
