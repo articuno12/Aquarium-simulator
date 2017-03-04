@@ -7,7 +7,7 @@ function loadTexture(name, source){
 }
 
 function handleTextureLoaded(name, image, texture) {
-    console.log("Texture loaded SUcccessfully") ;
+    console.log("Texture loaded SUcccessfully"+name) ;
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);

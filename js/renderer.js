@@ -40,19 +40,11 @@ var Renderer = {
 			ModelRenderer.init();
 	  	}
 
-		//  	loadTexture("bitwaffle", "models/bitwaffle/bitwaffle.png");
-		//
-		//  	ModelLoader.loadModel(
-		// 	"models/bitwaffle/bitwaffle.obj", "models/bitwaffle/bitwaffle.mtl", "bitwaffle",
-		// 	function(model){
-		// 		Renderer.models['bitwaffle'] = model;
-		// 	}
-		// );
 
-    		loadTexture("bitwaffle", "models/diamond/diamond.png");
+    		loadTexture("bitwaffle", "models/bitwaffle/bitwaffle.png");
 
     		ModelLoader.loadModel(
-    		"models/untitled.obj", "models/untitled.mtl", "bitwaffle",
+    		"models/Mods/Turtle/Turtle.obj", "models/Mods/Turtle/Turtle.mtl", "bitwaffle",
     		function(model){
     			Renderer.models['bitwaffle'] = model;
     		}
@@ -67,6 +59,8 @@ var Renderer = {
 			}
 		);
 
+		//loading aquarium textures
+		AquariumBox.init();
 	},
 
 	/** What happens when window gets resized */
@@ -89,7 +83,7 @@ var Renderer = {
 			gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
 		}catch(error) {
 			// alert user if gl isn't supported
-			alert("Oh man, couldn't initialize WebGL! What gives, you using an old browser or something? Psh.");
+			alert("Couldnt initialize webgl !");
 		}
 
 		if (gl) {
@@ -118,7 +112,7 @@ var Renderer = {
 		// Sandbox.render();
 
 		wat += 0.05;
-		// var lookAt = makeLookAt($V([0,0,5]),$V([0,0,0]),$V([1,0,0])) ;
+
 		var lookAt = Camera.LookAt ;
 		// console.log("got lookat matrix") ;
 		var rads = wat * Math.PI / 180.0;
@@ -136,13 +130,16 @@ var Renderer = {
 
 			ModelRenderer.renderModel(Renderer.models['diamond'], m);
 		}
-
 		var initwafflerot = -90 * Math.PI / 180.0;
-		var m = lookAt;
-		m = m.x(Matrix.Translation($V([0.0, 0.0, 0.0])));
-		// m = m.x(Matrix.Rotation(initwafflerot, $V([1.0, 0.0, 0.0])).ensure4x4());
-		//  	m = m.x(Matrix.Rotation(wat, $V([0.0, 0.0, 1.0])).ensure4x4());
+		modelView = Matrix.scale($V([1/3.597651,1/3.597651,1/3.597651])) ;
+		modelView = Matrix.Translation($V([0.0, 0.0, 0.0])).ensure4x4().x(modelView);
+		modelView = lookAt.x(modelView) ;
+		ModelRenderer.renderModel(Renderer.models['bitwaffle'], modelView)
 
-		ModelRenderer.renderModel(Renderer.models['bitwaffle'], m);
+		// Render the Box
+		modelView = Matrix.scale(AquariumBox.scale) ;
+		modelView = Matrix.Translation(AquariumBox.center).ensure4x4().x(modelView);
+		modelView = lookAt.x(modelView) ;
+		ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
 	}
 }
