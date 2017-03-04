@@ -316,7 +316,7 @@ var WEED = {
 		{
 				loadTexture("Weed", "models/images/weed.png");
 				ModelLoader.loadModel( 	"models/Weed/marijuana.obj", "models/Weed/marijuana.mtl", "Weed",function(model){
-					console.log("made");
+						console.log("made");
 						Renderer.models['Weed'] = model;} );
 		} ,
 		center : $V([-1.5,-4,0]),
