@@ -101,6 +101,7 @@ var Renderer = {
 	render: function() {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 		if(Camera.FishHeadViewOn) Camera.Fishheadview() ;
+		else if(Camera.FishEyeViewOn) Camera.FishEyeView() ;
 		wat += 0.05;
 
 		var lookAt = Camera.LookAt ;
@@ -125,6 +126,7 @@ var Renderer = {
 		for(var f in Fish_list)
 		{
 			if (f=="dummy") continue;
+			if(Camera.FishEyeViewOn && f == Camera.ControlFish) continue ;
 			var fish = Fish_list[f] ;
 			modelView = Matrix.scale(fish.scale) ;
 			modelView = Matrix.Rotate3D2(fish.direction.cross(fish.up).toUnitVector(),fish.up,fish.direction).x(modelView) ;

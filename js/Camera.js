@@ -8,6 +8,8 @@ var Camera = {
     FishHeadViewOn : false ,
     ControlFish : "None" ,
     ControlFishOn : false ,
+    FishHeadViewOn : false ,
+    FishEyeRight : false ,
 
     init : function(e,c,u)
     {
@@ -48,6 +50,7 @@ var Camera = {
         this.direction = $V([0,0,0]) ;
         this.update() ;
         this.FishHeadViewOn = false ;
+        this.FishEyeViewOn = false ;
     },
     ToggleFish : function()
     {
@@ -62,6 +65,7 @@ var Camera = {
     Fishheadview : function()
     {
       this.FishHeadViewOn=true;
+      this.FishEyeViewOn = false ;
       if( !(this.ControlFish in Fish_list) )
       {
         this.Normal() ;
@@ -75,11 +79,34 @@ var Camera = {
       this.update();
     },
     FreeCamView : function()
-{
+    {
 
     this.FishHeadViewOn = true ;
+    this.FishEyeViewOn =false ;
+    this.FishHeadViewOn = false ;
     HumanControl = true ;
     this.ControlFish = "dummy" ;
     focused_fish = "dummy" ;
-}
+  },
+    FishEyeView : function()
+    {
+      this.FishHeadViewOn = false ;
+      this.FishEyeViewOn = true ;
+    // if the camerafish is not present restore the normal view
+    if( !(this.ControlFish in Fish_list) )
+    {
+        this.Normal() ;
+        return ;
+    }
+    fish = Fish_list[this.ControlFish] ;
+        this.up = fish.up ;
+        this.center = fish.center ;
+        var normal = fish.direction.cross(fish.up);
+        normal=normal.toUnitVector() ;
+        if(!this.FishEyeRight)
+        { this.direction = fish.center.subtract(normal.multiply(this.CameraRadius/2));
+          this.direction = this.direction.multiply(-1) ;}
+        else this.direction = fish.center.add(normal.multiply(this.CameraRadius/2)) ;
+        this.update() ;
+    }
 }

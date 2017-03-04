@@ -114,8 +114,10 @@ function HandleKeyEvents(event)
     else if(event.keyCode == KeyList.UP_ARROW && HumanControl) ControlFish(3) ; //forward
     else if(event.keyCode == KeyList.RIGHT_ARROW && HumanControl) ControlFish(1) ;
     else if(event.keyCode == KeyList.LEFT_ARROW && HumanControl) ControlFish(2) ;
-    else if(event.keyCode == KeyList.KEY_U && HumanControl) ControlFish(5) ;
-    else if(event.keyCode == KeyList.KEY_D && HumanControl) ControlFish(6) ;
+    else if(event.keyCode == KeyList.KEY_W && HumanControl) ControlFish(5) ;
+    else if(event.keyCode == KeyList.KEY_S && HumanControl) ControlFish(6) ;
     else if(event.keyCode == KeyList.DOWN_ARROW && HumanControlFish) ControlFish(4) ;
     else if(event.keyCode == KeyList.KEY_R) Camera.FreeCamView() ;
+    else if(event.keyCode == KeyList.KEY_Y) { Camera.ToggleFish() ; Camera.FishEyeView() ;}
+    else if(event.keyCode == KeyList.KEY_U) Camera.FishEyeRight ^= 1 ;
 }
