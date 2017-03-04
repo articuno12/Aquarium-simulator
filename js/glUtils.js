@@ -18,6 +18,21 @@ Matrix.Translation = function (v)
 
   throw "Invalid length for Translation";
 }
+Matrix.Rotate3D = function(X,Y,Z)
+{
+    return $M([ [X.elements[0],X.elements[1],X.elements[2],0],
+                [Y.elements[0],Y.elements[1],Y.elements[2],0],
+                [Z.elements[0],Z.elements[1],Z.elements[2],0],
+                [0,0,0,1] ]) ;
+}
+Matrix.scale = function(v)
+{
+    var m = Matrix.I(4);
+    m.elements[0][0] = v.elements[0] ;
+    m.elements[1][1] = v.elements[1] ;
+    m.elements[2][2] = v.elements[2] ;
+    return m ;
+}
 
 Matrix.prototype.flatten = function ()
 {
@@ -124,17 +139,6 @@ function mht(m) {
     return s;
 }
 
-//
-// gluLookAt
-//
-// function makeLookAt(ex, ey, ez,
-//                     cx, cy, cz,
-//                     ux, uy, uz)
-// {
-//     var eye = $V([ex, ey, ez]);
-//     var center = $V([cx, cy, cz]);
-//     var up = $V([ux, uy, uz]);
-    // console.log(eye) ;
 function makeLookAt(eye,center,up)
 {
     var mag;
