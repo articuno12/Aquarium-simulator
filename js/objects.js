@@ -140,7 +140,7 @@ function init_fish()
                                             getArbitrary( -(AquariumBox.width - Fish_list[tuna].currentScale),(AquariumBox.width - Fish_list[tuna].currentScale) ) ,
                                             getArbitrary( -(AquariumBox.width - Fish_list[tuna].currentScale),(AquariumBox.width - Fish_list[tuna].currentScale) )
                                             ]) ;
-                          Fish_list[tuna].speed = 0.06;                  
+                          Fish_list[tuna].speed = 0.06;
                                             marijuana = NewFish("marijuana") ;
                                             Fish_list[marijuana].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) ) ,
                                                                 getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) ) ,
@@ -248,6 +248,10 @@ else if(Move == 5)
     Fish_list[focused_fish] = f;
 }
 
+function Kill()
+{
+  if(focused_fish in Fish_list)   delete Fish_list[focused_fish] ;
+}
 //*******AQUARIUM BOX********//
 
 var AquariumBox = {

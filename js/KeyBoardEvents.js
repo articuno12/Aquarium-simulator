@@ -110,7 +110,7 @@ function HandleKeyEvents(event)
     else if(event.keyCode == KeyList.KEY_T) Camera.ToggleFish() ;
     else if(event.keyCode == KeyList.KEY_C) Camera.Normal() ;
     else if(event.keyCode == KeyList.KEY_H) { Camera.ToggleFish();Camera.Fishheadview(); }
-    else if(event.keyCode == KeyList.KEY_Q) {Camera.ToggleFish() ; HumanControl ^= 1; }
+    else if(event.keyCode == KeyList.KEY_A) {Camera.ToggleFish() ; HumanControl ^= 1; }
     else if(event.keyCode == KeyList.UP_ARROW && HumanControl) ControlFish(3) ; //forward
     else if(event.keyCode == KeyList.RIGHT_ARROW && HumanControl) ControlFish(1) ;
     else if(event.keyCode == KeyList.LEFT_ARROW && HumanControl) ControlFish(2) ;
@@ -120,4 +120,5 @@ function HandleKeyEvents(event)
     else if(event.keyCode == KeyList.KEY_R) Camera.FreeCamView() ;
     else if(event.keyCode == KeyList.KEY_Y) { Camera.ToggleFish() ; Camera.FishEyeView() ;}
     else if(event.keyCode == KeyList.KEY_U) Camera.FishEyeRight ^= 1 ;
+    else if(event.keyCode == KeyList.KEY_Q) Kill() ;
 }
