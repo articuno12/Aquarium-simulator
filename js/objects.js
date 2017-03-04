@@ -32,7 +32,7 @@ function NewFish(fish_type)
         center : $V([0,0,0]),
         direction : $V([1,0,0]),
         up : $V([0,1,0]) ,
-        boundingVal : 3.597651 ,
+        boundingVal : 4.43035 ,
     } ;
 
     Fish_no += 1 ;
@@ -67,7 +67,7 @@ ModelLoader.loadModel("models/Fish/Fish.obj","models/Fish/Fish.mtl",fish.name,fu
       center : $V([0,0,0]),
       up : $V([0,1,0]) ,
       direction : $V([1,0,0]),
-      boundingVal : 3.597651 ,
+      boundingVal : 0.52537 ,
     }
     Fish_no+=1;
     this.babyScale = this.babyScale / this.boundingVal ;
@@ -76,7 +76,7 @@ ModelLoader.loadModel("models/Fish/Fish.obj","models/Fish/Fish.mtl",fish.name,fu
     this.scale = $V([this.currentScale,this.currentScale,this.currentScale]) ;
 
     loadTexture(marijuana.name, FishTextureList[ Math.floor(Math.random() * FishTextureList.length) ] );
-ModelLoader.loadModel("models/marijuana/marijuana.obj","models/marijuana/marijuana.mtl",marijuana.name,function(model){Renderer.models[marijuana.name] = model;} );
+ModelLoader.loadModel("models/marijuana/rbtrout.obj","models/marijuana/rbtrout.mtl",marijuana.name,function(model){Renderer.models[marijuana.name] = model;} );
     Fish_list[marijuana.name] = marijuana ;
     return marijuana.name ;
   }
@@ -101,7 +101,7 @@ ModelLoader.loadModel("models/marijuana/marijuana.obj","models/marijuana/marijua
       center : $V([0,0,0]),
       up : $V([0,1,0]) ,
       direction : $V([1,0,0]),
-      boundingVal : 3.597651 ,
+      boundingVal : 2.540946 ,
     }
     Fish_no+=1;
     this.babyScale = this.babyScale / this.boundingVal ;
@@ -128,11 +128,11 @@ function init_fish()
                         getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) ) ,
                         getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) )
                         ]) ;
-                        fish = NewFish("Fish") ;
-                        Fish_list[fish].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
-                                            getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
-                                            getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) )
-                                            ]) ;
+                        // fish = NewFish("Fish") ;
+                        // Fish_list[fish].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
+                        //                     getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
+                        //                     getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) )
+                        //                     ]) ;
 }
 
 function Move_fish()
@@ -161,7 +161,16 @@ function Move_fish()
             fish.direction = Matrix.Rotation(fish.rotateAngle,fish.up).x(fish.direction);
             fish.direction=fish.direction.toUnitVector() ;
         }
-        fish.center = fish.center.add(fish.direction.multiply(fish.speed)) ;
+        if( CheckFishCollision(fish) || CheckBoxCollision(fish) )
+        {
+            //Rotate at twice the noraml speed
+            fish.direction = Matrix.Rotation(2*fish.rotateAngle,fish.up).x(fish.direction);
+            fish.direction=fish.direction.toUnitVector() ;
+        }
+        else
+        {
+            fish.center = fish.center.add(fish.direction.multiply(fish.speed)) ;
+        }
         // update fish in the fishlist
         Fish_list[fishname] = fish ;
     }
@@ -183,3 +192,44 @@ var AquariumBox = {
     length : 12 ,
     scale : $V([12,12,12]) ,
 } ;
+
+//*****mountain****//
+var Mountain = {
+  init:function()
+  {
+  loadTexture("Mountain", "models/images/mountain.png");
+  ModelLoader.loadModel( 	"models/mountain/mountain.obj", "models/mountain/mountain.mtl", "Mountain",function(model){
+    console.log("m made") ;
+    Renderer.models['Mountain'] = model;} );
+  } ,
+  center : $V([-1.5,-1.5,0]),
+  height : 4 ,
+  width : 4 ,
+  length : 8 ,
+  scale : $V([1,1,1]) ,
+  boundingVal : 1.646952 ,
+};
+
+function CheckBoxCollision(fish)
+{
+    var l = fish.center.add(fish.direction.multiply(fish.speed)) ;
+    var dif = l.subtract(AquariumBox.center) ;
+    if(Math.abs(dif.dot($V([0,1,0])) >= AquariumBox.height ||
+       Math.abs(dif.dot($V([1,0,0])) >= AquariumBox.length ||
+       Math.abs(dif.dot($V([0,0,1])) >= AquariumBox.width )
+       return true ;
+    else return false ;
+
+}
+function CheckFishCollision(fish)
+{
+    var l = fish.center.add(fish.direction.multiply(fish.speed)) ;
+    for(var f in Fish_list) if(f != fish.name)
+    {
+        f2 = Fish_list[f] ;
+        var Dif = l.subtract(f2.center) ;
+        if( Dif.modulus() <= f2.currentScale + fish.currentScale )
+            return true ;
+    }
+    return false ;
+}
