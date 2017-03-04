@@ -53,6 +53,7 @@ var Renderer = {
 		AquariumBox.init();
 		init_fish();
 		Mountain.init();
+		WEED.init();
 	},
 
 	/** What happens when window gets resized */
@@ -146,5 +147,11 @@ var Renderer = {
 	modelView = Matrix.Translation(Mountain.center).ensure4x4().x(modelView);
 	modelView = lookAt.x(modelView) ;
 	ModelRenderer.renderModel(Renderer.models['Mountain'], modelView);
+
+	//render mountain
+	modelView = Matrix.scale(WEED.scale) ;
+	modelView = Matrix.Translation(WEED.center).ensure4x4().x(modelView);
+	modelView = lookAt.x(modelView) ;
+	ModelRenderer.renderModel(Renderer.models['Weed'], modelView);
 	}
 }
