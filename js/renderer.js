@@ -124,9 +124,10 @@ var Renderer = {
 		Move_fish() ;
 		for(var f in Fish_list)
 		{
+			if (f=="dummy") continue;
 			var fish = Fish_list[f] ;
 			modelView = Matrix.scale(fish.scale) ;
-			modelView = Matrix.Rotate3D(fish.direction.cross(fish.up).toUnitVector(),fish.up,fish.direction).x(modelView) ;
+			modelView = Matrix.Rotate3D2(fish.direction.cross(fish.up).toUnitVector(),fish.up,fish.direction).x(modelView) ;
 			modelView = Matrix.Translation(fish.center).x(modelView) ;
 			modelView = lookAt.x(modelView) ;
 			ModelRenderer.renderModel(Renderer.models[fish.name],modelView) ;
@@ -136,7 +137,7 @@ var Renderer = {
 		modelView = Matrix.scale(AquariumBox.scale) ;
 		modelView = Matrix.Translation(AquariumBox.center).ensure4x4().x(modelView);
 		modelView = lookAt.x(modelView) ;
-	ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
+	//ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
 
 	//render mountain
 	modelView = Matrix.scale(Mountain.scale) ;

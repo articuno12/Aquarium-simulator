@@ -7,6 +7,8 @@ var Camera = {
     CameraRadius : 5 ,
     FishHeadViewOn : false ,
     ControlFish : "None" ,
+    ControlFishOn : false ,
+
     init : function(e,c,u)
     {
         this.center = $V([0,0,this.CameraRadius]) ;
@@ -52,9 +54,10 @@ var Camera = {
       var result;
       var count = 0;
       for (var f in Fish_list)
-        if (Math.random() < 1/++count)
+        if (Math.random() < 1/++count && f!="dummy" )
             result = f;
       this.ControlFish = result;
+      focused_fish = result;
     },
     Fishheadview : function()
     {
@@ -70,5 +73,13 @@ var Camera = {
       this.direction = fish.center.add(fish.direction.multiply(this.CameraRadius)) ;
       this.up = fish.up ;
       this.update();
-    }
+    },
+    FreeCamView : function()
+{
+
+    this.FishHeadViewOn = true ;
+    HumanControl = true ;
+    this.ControlFish = "dummy" ;
+    focused_fish = "dummy" ;
+}
 }

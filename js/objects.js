@@ -1,3 +1,5 @@
+var HumanControl = false;
+var focused_fish = "" ;
 var Fish_list = {} ;
 var Fish_no = 0 ;
 var FishTextureList = [
@@ -117,6 +119,16 @@ ModelLoader.loadModel("models/tuna/tuna.obj","models/tuna/tuna.mtl",tuna.name,fu
 }
 function init_fish()
 {
+  //dummy fish to be used as camera in free viewport
+  var dummyCamera = {
+        center : $V([0,0,0]),
+        direction : $V([1,0,0]) ,
+        up : $V([0,1,0]) ,
+        speed : 0.1 ,
+        currentScale : 1 ,
+      } ;
+
+    Fish_list["dummy"] = dummyCamera ;
     tuna = NewFish("tuna") ;
     Fish_list[tuna].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[tuna].currentScale),(AquariumBox.width - Fish_list[tuna].currentScale) ) ,
                         getArbitrary( -(AquariumBox.width - Fish_list[tuna].currentScale),(AquariumBox.width - Fish_list[tuna].currentScale) ) ,
@@ -149,6 +161,8 @@ function Move_fish()
 {
     for(var fishname in Fish_list)
     {
+        if(fishname == "dummy") continue ;
+        if(HumanControl && fishname == focused_fish) continue ;
         var fish = Fish_list[fishname] ;
         if((Date.now() - fish.moveStartTime) > (fish.movetime*1000))
         {
@@ -186,7 +200,52 @@ function Move_fish()
     }
 }
 
-
+function ControlFish(Move)
+{
+  if(!focused_fish in Fish_list)
+  {
+    HumanControl = false;
+    return;
+  }
+  f = Fish_list[focused_fish];
+  if(Move == 1)
+{
+    // Rotate right
+    f.direction = Matrix.Rotation(-6*Math.PI/180,f.up).x(f.direction);
+    f.direction=f.direction.toUnitVector() ;
+}
+else if(Move == 2)
+{
+    // Rotate left
+    f.direction = Matrix.Rotation(6*Math.PI/180,f.up).x(f.direction).toUnitVector() ;
+}
+else if(Move == 3)
+{
+    // Move Foward
+    f.center = f.center.add(f.direction.multiply(6*f.speed)) ;
+}
+else if(Move == 4)
+{
+    // Move back
+    if(f!="dummy")
+    f.center = f.center.subtract(f.direction.multiply(5*f.speed)) ;
+}
+else if(Move == 5)
+    {
+        // Rotate Up
+        var normal = f.direction.cross(f.up);
+        f.up = Matrix.Rotation(6*Math.PI/180,normal.toUnitVector()).x(f.up).toUnitVector() ;
+        f.direction = Matrix.Rotation(6*Math.PI/180,normal.toUnitVector()).x(f.direction).toUnitVector() ;
+    }
+    else if(Move == 6)
+    {
+        // Rotate Down
+        var normal = f.direction.cross(f.up).toUnitVector() ;
+        f.up = Matrix.Rotation(-6*Math.PI/180,normal).x(f.up).toUnitVector() ;
+        f.direction = Matrix.Rotation(-6*Math.PI/180,normal).x(f.direction).toUnitVector() ;
+    }
+    Fish_list[focused_fish] = f;
+}
 
 //*******AQUARIUM BOX********//
 
@@ -234,7 +293,7 @@ function CheckBoxCollision(fish)
 function CheckFishCollision(fish)
 {
     var l = fish.center.add(fish.direction.multiply(fish.speed)) ;
-    for(var f in Fish_list) if(f != fish.name)
+    for(var f in Fish_list) if(f != fish.name && f!="dummy")
     {
         f2 = Fish_list[f] ;
         var Dif = l.subtract(f2.center) ;

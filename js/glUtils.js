@@ -25,6 +25,14 @@ Matrix.Rotate3D = function(X,Y,Z)
                 [Z.elements[0],Z.elements[1],Z.elements[2],0],
                 [0,0,0,1] ]) ;
 }
+Matrix.Rotate3D2 = function(X,Y,Z)
+{
+    return $M([ [X.elements[0],Y.elements[0],Z.elements[0],0],
+                [X.elements[1],Y.elements[1],Z.elements[1],0],
+                [X.elements[2],Y.elements[2],Z.elements[2],0],
+                [0,0,0,1] ]) ;
+}
+
 Matrix.scale = function(v)
 {
     var m = Matrix.I(4);
