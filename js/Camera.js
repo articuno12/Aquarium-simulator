@@ -5,6 +5,8 @@ var Camera = {
     LookAt : 0,
     CameraRotateAngle : 6 * Math.PI / 180.0 ,
     CameraRadius : 5 ,
+    FishHeadViewOn : false ,
+    ControlFish : "None" ,
     init : function(e,c,u)
     {
         this.center = $V([0,0,this.CameraRadius]) ;
@@ -36,5 +38,37 @@ var Camera = {
     {
         this.center = this.center.x( 1 + direction*0.06 ) ;
         this.update() ;
+    },
+    Normal : function()
+    {
+        this.center = $V([0,0,this.CameraRadius]) ;
+        this.up = $V([0,1,0]) ;
+        this.direction = $V([0,0,0]) ;
+        this.update() ;
+        this.FishHeadViewOn = false ;
+    },
+    ToggleFish : function()
+    {
+      var result;
+      var count = 0;
+      for (var f in Fish_list)
+        if (Math.random() < 1/++count)
+            result = f;
+      this.ControlFish = result;
+    },
+    Fishheadview : function()
+    {
+      this.FishHeadViewOn=true;
+      if( !(this.ControlFish in Fish_list) )
+      {
+        this.Normal() ;
+        this.FishHeadViewOn = false;
+        return ;
+      }
+      fish = Fish_list[this.ControlFish];
+      this.center=fish.center.add(fish.up.multiply(2*fish.currentScale)) ;
+      this.direction = fish.center.add(fish.direction.multiply(this.CameraRadius)) ;
+      this.up = fish.up ;
+      this.update();
     }
 }

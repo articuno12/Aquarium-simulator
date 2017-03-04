@@ -107,4 +107,7 @@ function HandleKeyEvents(event)
     else if(event.keyCode == KeyList.KEY_L) Camera.MoveCameraH(1) ;
     else if(event.keyCode == KeyList.KEY_F) Camera.ChangeCameraRadius(1) ;
     else if(event.keyCode == KeyList.KEY_N) Camera.ChangeCameraRadius(-1) ;
+    else if(event.keyCode == KeyList.KEY_T) Camera.ToggleFish() ;
+    else if(event.keyCode == KeyList.KEY_C) Camera.Normal() ;
+    else if(event.keyCode == KeyList.KEY_H) { Camera.ToggleFish();Camera.Fishheadview(); } ;
 }

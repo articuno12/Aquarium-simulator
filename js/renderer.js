@@ -100,9 +100,7 @@ var Renderer = {
 	/** Renders the scene */
 	render: function() {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-		// Sandbox.render();
-
+		if(Camera.FishHeadViewOn) Camera.Fishheadview() ;
 		wat += 0.05;
 
 		var lookAt = Camera.LookAt ;
