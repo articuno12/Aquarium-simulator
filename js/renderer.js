@@ -138,7 +138,7 @@ var Renderer = {
 		modelView = Matrix.scale(AquariumBox.scale) ;
 		modelView = Matrix.Translation(AquariumBox.center).ensure4x4().x(modelView);
 		modelView = lookAt.x(modelView) ;
-	//	ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
+	ModelRenderer.renderModel(Renderer.models['AquariumBox'], modelView);
 
 	//render mountain
 	modelView = Matrix.scale(Mountain.scale) ;

@@ -5,7 +5,7 @@ var FishTextureList = [
     "models/images/fish4.png",
     "models/images/fish0.png",
     "models/images/fish1.png",
-    "models/images/fish2.png",
+
     "models/images/fish3.png",
   ]
 function getArbitrary(max, min)  {  return Math.random() * (min - max) + max; }
@@ -32,7 +32,7 @@ function NewFish(fish_type)
         center : $V([0,0,0]),
         direction : $V([1,0,0]),
         up : $V([0,1,0]) ,
-        boundingVal : 4.43035 ,
+        boundingVal : 11.8622 ,
     } ;
 
     Fish_no += 1 ;
@@ -41,8 +41,8 @@ function NewFish(fish_type)
     this.adultScale = this.adultScale / this.boundingVal ;
     this.scale = $V([this.currentScale,this.currentScale,this.currentScale]) ;
 
-    loadTexture(fish.name, FishTextureList[ Math.floor(Math.random() * FishTextureList.length) ] );
-ModelLoader.loadModel("models/Fish/Fish.obj","models/Fish/Fish.mtl",fish.name,function(model){Renderer.models[fish.name] = model;} );
+    loadTexture(fish.name, "models/images/whale.png" );
+ModelLoader.loadModel("models/Whale/Whale.obj","models/Whale/Whale.mtl",fish.name,function(model){Renderer.models[fish.name] = model;} );
     Fish_list[fish.name] = fish ;
     return fish.name ;
   }
@@ -67,7 +67,7 @@ ModelLoader.loadModel("models/Fish/Fish.obj","models/Fish/Fish.mtl",fish.name,fu
       center : $V([0,0,0]),
       up : $V([0,1,0]) ,
       direction : $V([1,0,0]),
-      boundingVal : 0.52537 ,
+      boundingVal : 5.2537 ,
     }
     Fish_no+=1;
     this.babyScale = this.babyScale / this.boundingVal ;
@@ -128,11 +128,11 @@ function init_fish()
                         getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) ) ,
                         getArbitrary( -(AquariumBox.width - Fish_list[marijuana].currentScale),(AquariumBox.width - Fish_list[marijuana].currentScale) )
                         ]) ;
-                        // fish = NewFish("Fish") ;
-                        // Fish_list[fish].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
-                        //                     getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
-                        //                     getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) )
-                        //                     ]) ;
+                         fish = NewFish("Fish") ;
+                         Fish_list[fish].center = $V([getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
+                                             getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) ) ,
+                                             getArbitrary( -(AquariumBox.width - Fish_list[fish].currentScale),(AquariumBox.width - Fish_list[fish].currentScale) )
+                                   ]) ;
 }
 
 function Move_fish()
@@ -190,7 +190,7 @@ var AquariumBox = {
     height : 12 ,
     width : 12 ,
     length : 12 ,
-    scale : $V([12,12,12]) ,
+    scale : $V([15,15,15]) ,
 } ;
 
 //*****mountain****//
@@ -214,11 +214,11 @@ function CheckBoxCollision(fish)
 {
     var l = fish.center.add(fish.direction.multiply(fish.speed)) ;
     var dif = l.subtract(AquariumBox.center) ;
-    if(Math.abs(dif.dot($V([0,1,0])) >= AquariumBox.height ||
-       Math.abs(dif.dot($V([1,0,0])) >= AquariumBox.length ||
-       Math.abs(dif.dot($V([0,0,1])) >= AquariumBox.width )
+    if(Math.abs(dif.dot($V([0,1,0])) >= AquariumBox.height) ||
+       Math.abs(dif.dot($V([1,0,0])) >= AquariumBox.length) ||
+       Math.abs(dif.dot($V([0,0,1])) >= AquariumBox.width) )
        return true ;
-    else return false ;
+    return false ;
 
 }
 function CheckFishCollision(fish)
