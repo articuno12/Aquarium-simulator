@@ -54,11 +54,14 @@ var Camera = {
 		},
 		ToggleFish : function()
 		{
-				var result;
+				var result = "none";
 				var count = 0;
-				for (var f in Fish_list)
-						if (Math.random() < 1/++count && f!="dummy" )
-								result = f;
+        while(result == "none")
+        {
+          for (var f in Fish_list)
+  						if (Math.random() < 1/++count && f!="dummy" )
+  								result = f;
+        }
 				this.ControlFish = result;
 				focused_fish = result;
 		},
@@ -83,7 +86,7 @@ var Camera = {
 
 				this.FishHeadViewOn = true ;
 				this.FishEyeViewOn =false ;
-				this.FishHeadViewOn = false ;
+				// this.FishHeadViewOn = false ;
 				HumanControl = true ;
 				this.ControlFish = "dummy" ;
 				focused_fish = "dummy" ;

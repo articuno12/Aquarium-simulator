@@ -277,9 +277,9 @@ function CheckBoxCollision(fish)
 {
 		var l = fish.center.add(fish.direction.multiply(fish.speed)) ;
 		var dif = l.subtract(AquariumBox.center) ;
-		if(Math.abs(dif.dot($V([0,1,0])) >= AquariumBox.height) ||
-						Math.abs(dif.dot($V([1,0,0])) >= AquariumBox.length) ||
-						Math.abs(dif.dot($V([0,0,1])) >= AquariumBox.width) )
+		if(Math.abs(dif.dot($V([0,1,0])) >= AquariumBox.height/1.5) ||
+						Math.abs(dif.dot($V([1,0,0])) >= AquariumBox.length/1.5) ||
+						Math.abs(dif.dot($V([0,0,1])) >= AquariumBox.width/1.5) )
 				return true ;
 		return false ;
 
